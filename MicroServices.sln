@@ -5,7 +5,12 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "platforms", "platforms", "{AD89D63B-7570-4CC4-8AFD-567F88A53DF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "platformWebAPIs", "platformWebAPIs\platformWebAPIs.csproj", "{59CBD176-B573-45D9-A274-315C1B5205C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "platformWebAPIs", "platformWebAPIs\platformWebAPIs.csproj", "{59CBD176-B573-45D9-A274-315C1B5205C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{9C196144-7D85-4158-8D09-92FC7D9DD97D}"
+	ProjectSection(SolutionItems) = preProject
+		platforms-depl.yml = platforms-depl.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

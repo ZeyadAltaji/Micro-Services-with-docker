@@ -5,7 +5,7 @@ namespace platformWebAPIs.SyncDataServices.http
 {
     public interface ICommandDataClient
     {
-        Task SenndplatformsCommand(PlatfromsReadDto readDto);
+        Task SendplatformsCommand(PlatfromsReadDto readDto);
 
     }
 }

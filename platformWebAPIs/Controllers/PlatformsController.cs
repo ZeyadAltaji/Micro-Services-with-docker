@@ -6,6 +6,8 @@ using Repo.Interface;
 using System.Collections.Generic;
 using System;
 using Models;
+using platformWebAPIs.SyncDataServices.http;
+using System.Threading.Tasks;
 
 namespace platformWebAPIs.Controllers
 {
@@ -15,10 +17,12 @@ namespace platformWebAPIs.Controllers
     {
         private readonly IPlatfromsReop _repository;
         private readonly IMapper _mapper;
-        public PlatformsController(IPlatfromsReop repository, IMapper mapper)
+        private readonly ICommandDataClient _dataClient;
+        public PlatformsController(IPlatfromsReop repository, IMapper mapper,ICommandDataClient dataClient)
         {
             _repository = repository;
             _mapper = mapper;
+            _dataClient = dataClient;
         }
         // GET: api/<PlatformsController>
         [HttpGet]
@@ -42,14 +46,22 @@ namespace platformWebAPIs.Controllers
 
         // POST api/<PlatformsController>
         [HttpPost]
-        public ActionResult<PlatfromsReadDto> creatplatfroms(PlatfromCreateDTO platfromCreate)
+        public async Task<ActionResult<PlatfromsReadDto>> creatplatfroms(PlatfromCreateDTO platfromCreate)
         {
             var platfromModel = _mapper.Map<Platfrom>(platfromCreate);
             _repository.CreatePlatform(platfromModel);
             _repository.SaveChanges();
             var platformRead = _mapper.Map<PlatfromsReadDto>(platfromModel);
+            try
+            {
+                await _dataClient.SendplatformsCommand(platformRead);
+            }catch (Exception ex)
+            {
+               Console.WriteLine($"--> could not send synchronously :{ex.Message}");
+            }
             var itemCreate = CreatedAtRoute(nameof(GetPlatformsbyId), new { id = platformRead.Id }, platformRead);
             return Ok(itemCreate);
+            //return CreatedAtRoute(nameof(GetPlatformsbyId), new { id = platformRead.Id }, platformRead);
         }
     }
 }

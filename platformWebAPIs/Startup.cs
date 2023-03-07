@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using platformWebAPIs.SyncDataServices.http;
 using ProfileAutoMapper;
 using Repo.classes;
 using Repo.Interface;
@@ -34,10 +35,10 @@ namespace platformWebAPIs
             services.AddDbContext<DBContext>(option => option.UseInMemoryDatabase("InMem"));
 
             services.AddScoped<IPlatfromsReop, PlatfromsReop>();
-
+            services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
             services.AddControllers();
             services.AddAutoMapper(typeof(PlatfromProfrile).Assembly);
-
+            Console.WriteLine($"--> commandservice Endpoint {Configuration["commandServices"]} ");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

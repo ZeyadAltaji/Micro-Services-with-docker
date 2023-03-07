@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platforms-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platformWebAPIs
+  template:
+    metadata:
+      labels:
+        app: platformWebAPIs
+    spec:
+      containers:
+        - name: cranky_raman
+          image: zeyadaltaji/mymicroservice:latest

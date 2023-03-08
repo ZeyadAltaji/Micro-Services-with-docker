@@ -22,17 +22,30 @@ namespace platformWebAPIs
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+        private readonly IWebHostEnvironment _env;
+        public Startup(IConfiguration configuration,IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
-        public IConfiguration Configuration { get; }
+       
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DBContext>(option => option.UseInMemoryDatabase("InMem"));
+            if (_env.IsProduction())
+            {
+                Console.WriteLine("--> using Sql Server DB !");
+                services.AddDbContext<DBContext>(option => option.UseSqlServer(Configuration.GetConnectionString("PlatformsConn")));
+            }
+            else
+            {
+                Console.WriteLine("-- >using in Memory DB !");
+                services.AddDbContext<DBContext>(option => option.UseInMemoryDatabase("InMem"));
+            }
 
             services.AddScoped<IPlatfromsReop, PlatfromsReop>();
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();

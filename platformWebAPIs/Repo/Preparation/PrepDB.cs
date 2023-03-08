@@ -1,5 +1,6 @@
 ﻿using Entites; 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
 using System;
@@ -11,28 +12,27 @@ namespace Repo.Preparation
 {
     public static class PrepDB
     {
-        public static void PrepPopulation(IApplicationBuilder app)
+        public static void PrepPopulation(IApplicationBuilder app,bool isProd)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<DBContext>());
+                SeedData(serviceScope.ServiceProvider.GetService<DBContext>(), isProd);
             }
         }
 
-        private static void SeedData(DBContext context)
+        private static void SeedData(DBContext context,bool isProd)
         {
-            //if (isProd)
-            //{
-            //    Console.WriteLine("--> Attempting to apply migrations...");
-            //    try
-            //    {
-                   
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine($"--> Could not run migrations: {ex.Message}");
-            //    }
-            //}
+            if (isProd)
+            {
+                Console.WriteLine("--> Attempting to apply migrations...");
+                try
+                {
+                    context.Database.Migrate();
+                }catch(Exception ex)
+                {
+                    Console.WriteLine($"--> Could not run migrations: {ex.Message}");
+                }
+            }
 
             if (!context.platfroms.Any())
             {

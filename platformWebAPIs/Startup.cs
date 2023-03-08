@@ -38,7 +38,7 @@ namespace platformWebAPIs
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
             services.AddControllers();
             services.AddAutoMapper(typeof(PlatfromProfrile).Assembly);
-            Console.WriteLine($"--> commandservice Endpoint {Configuration["commandServices"]} ");
+            Console.WriteLine($"--> commandservice Endpoint {Configuration["CommandService"]} ");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace platformWebAPIs
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -26,7 +26,7 @@ namespace platformWebAPIs.SyncDataServices.http
                 JsonSerializer.Serialize(readDto),
                 Encoding.UTF8,
                 "application/json");
-            var response = await _httpclient.PostAsync($"{_configuration["commandServices"]}", httpContent);
+            var response = await _httpclient.PostAsync($"{_configuration["CommandService"]}", httpContent);
             if(response.IsSuccessStatusCode)
                 Console.WriteLine("--> sync post to command services was OK ! ");
             else

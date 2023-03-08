@@ -72,7 +72,7 @@ namespace platformWebAPIs
             {
                 endpoints.MapControllers();
             });
-            PrepDB.PrepPopulation(app);
+            PrepDB.PrepPopulation(app,env.IsProduction());
 
         }
     }
